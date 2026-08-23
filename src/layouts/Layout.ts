@@ -216,7 +216,7 @@ ${this.renderFooter()}
       target === paths.homeUrl
         ? currentUrl === paths.homeUrl
         : currentUrl === target ||
-          (isPostPage && target === paths.archiveUrl);
+          (isPostPage && target === paths.blogUrl);
 
     return html`<a class="nav-link${isActive ? ' is-active' : ''}" href="${target}"${
       isActive ? raw(' aria-current="page"') : ''

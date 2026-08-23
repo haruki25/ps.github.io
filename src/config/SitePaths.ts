@@ -164,8 +164,11 @@ export class SitePaths {
   }
 
   /** The year-grouped archive listing. */
-  get archiveUrl(): string {
-    return this.withBase('/archives.html');
+  get blogUrl(): string {
+    // Derived from the same setting as postUrl, so the index and the posts it
+    // lists can never end up under different prefixes. The trailing slash makes
+    // this a directory index: /blog/ alongside /blog/hello-world.html.
+    return this.withBase(`${this.config.postsBasePath}/`);
   }
 
   /** The index of all tags. */

@@ -13,5 +13,5 @@ Most of what I publish here starts as notes to myself - working through
 something I didn't understand, and finding out what I actually think by trying 
 to explain it clearly.
 
-You can browse the [blog](/archives.html), read a fuller [bio](/bio.html), or
+You can browse the [blog](/blog/), read a fuller [bio](/bio.html), or
 reach me through any of the links above.

@@ -44,7 +44,7 @@ const config: SiteConfig = {
   nav: [
     { label: 'Home', href: '/' },
     { label: 'Bio', href: '/bio.html' },
-    { label: 'Blog', href: '/archives.html' },
+    { label: 'Blog', href: '/blog/' },
   ],
 
   // --- Contact / profile links ---------------------------------------------

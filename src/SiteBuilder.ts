@@ -245,7 +245,7 @@ export class SiteBuilder {
     content: ContentSet,
   ): Promise<void> {
     await this.renderLayout(
-      this.paths.archiveUrl,
+      this.paths.blogUrl,
       new ArchiveLayout(ctx, content.posts),
     );
   }

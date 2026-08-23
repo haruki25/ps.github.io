@@ -32,7 +32,7 @@ export class ArchiveLayout extends Layout {
     return {
       title: 'Blog',
       description: `Writing by ${this.ctx.config.author}.`,
-      url: this.ctx.paths.archiveUrl,
+      url: this.ctx.paths.blogUrl,
       ogType: 'website',
       publishedTime: null,
     };
