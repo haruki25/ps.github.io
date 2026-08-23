@@ -3,8 +3,6 @@ title: "A Voice Assistant That Runs Entirely on an Old Phone"
 date: 2026-08-23T18:48:48.717Z
 description: Turning a three-year-old Galaxy A73 into an always-on local LLM server and Alexa-style voice assistant. What worked, what Android refused to allow, and what I'd do differently.
 tags: [systems, llm, android]
-# description: A one-line summary used for search results and the RSS feed.
-draft: true   # uncomment to keep this out of the published site
 ---
 
 There is a Samsung Galaxy A73 on my desk running a language model, a speech 
