@@ -182,8 +182,13 @@ img {
   padding-bottom: 2px;
 }
 
+/* The border below is this link's underline. `text-decoration: none` is not
+   redundant with the rule on `.nav-link`: the global `a:hover` reintroduces an
+   underline at higher specificity, which would draw a second line tight under
+   the text while the border sits below the padding. */
 .nav-link:hover {
   border-bottom-color: var(--color-text);
+  text-decoration: none;
 }
 
 /* The section you are currently in. */
