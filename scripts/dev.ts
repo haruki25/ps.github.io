@@ -162,14 +162,19 @@ function resolveRequestPath(requestUrl: string): string | null {
     return null;
   }
 
-  const relative = decoded.endsWith('/') ? `${decoded}index.html` : decoded;
-  const resolved = path.resolve(
-    paths.outputDir,
-    ...relative.replace(/^\/+/, '').split('/'),
-  );
+  // Route through SitePaths rather than joining onto the output directory
+  // directly, so the dev server honours `basePath` exactly as the built site
+  // does. GitHub serves this repository from a subdirectory, so every URL in
+  // the HTML carries that prefix while the files on disk do not. Resolving by
+  // hand here would serve the pages but 404 every stylesheet and link.
+  //
+  // A request without the prefix still resolves, so both of these work:
+  //   /ps.github.io/bio.html  ->  dist/bio.html
+  //   /bio.html               ->  dist/bio.html
+  const resolved = paths.outputFileFor(decoded);
 
-  // `path.resolve` has normalised any `..` segments by now, so a simple prefix
-  // test is sufficient.
+  // `path.join` inside outputFileFor has normalised any `..` segments by now,
+  // so a simple prefix test is sufficient to keep requests inside dist/.
   const root = path.resolve(paths.outputDir);
   if (resolved !== root && !resolved.startsWith(root + path.sep)) return null;
 
@@ -304,7 +309,11 @@ async function main(): Promise<void> {
   const port = await startServer(server, PORT);
 
   logger.info('');
-  logger.success(`Serving ${logger.emphasise(`http://localhost:${port}`)}`);
+  // Include the base path, so the printed URL is the one that actually works.
+  // With a base path configured, the bare origin serves the home page but its
+  // stylesheet and links all sit under the prefix.
+  const siteUrl = `http://localhost:${port}${paths.homeUrl}`;
+  logger.success(`Serving ${logger.emphasise(siteUrl)}`);
   logger.detail('drafts are included; edits to content/ rebuild automatically');
   logger.detail('press Ctrl+C to stop');
 
