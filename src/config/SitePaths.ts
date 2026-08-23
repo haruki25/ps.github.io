@@ -198,6 +198,12 @@ export class SitePaths {
    * @returns Its public URL, base path included.
    */
   assetUrl(assetPath: string): string {
+    // An absolute or protocol-relative URL points somewhere else entirely, so
+    // the base path must not be glued onto the front of it. Without this,
+    // configuring a CDN-hosted favicon would produce
+    // "/ps.github.io/https://cdn.example.com/icon.png".
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(assetPath)) return assetPath;
+
     return this.withBase(
       assetPath.startsWith('/') ? assetPath : `/${assetPath}`,
     );

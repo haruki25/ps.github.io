@@ -88,6 +88,24 @@ const config: SiteConfig = {
   googleFontsHref:
     'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Source+Code+Pro:wght@400&display=swap',
 
+  // Browser tab icons. A root-relative path is served from this site and picks
+  // up the base path automatically; an absolute URL is used as-is.
+  //
+  // The local assets/favicon.svg is no longer referenced: most browsers prefer
+  // an SVG when one is listed, which would mean these PNGs never appeared.
+  favicons: [
+    {
+      url: 'https://img.icons8.com/pulsar-color/48/sakura.png',
+      type: 'image/png',
+      sizes: '48x48',
+    },
+    {
+      url: 'https://img.icons8.com/pulsar-color/96/sakura.png',
+      type: 'image/png',
+      sizes: '96x96',
+    },
+  ],
+
   // Syntax highlighting themes, one per colour scheme. Both are baked into
   // every code block as CSS variables, so switching theme in the browser needs
   // no re-highlighting. Any theme bundled with Shiki works here.

@@ -36,6 +36,33 @@ export interface NavItem {
 }
 
 /**
+ * One `<link rel="icon">` entry.
+ *
+ * @remarks
+ * List several to offer the browser a choice; it picks whichever suits the
+ * surface it is drawing (tab, bookmark bar, home screen). A single scalable SVG
+ * covers every size on its own, so a list is only needed for raster formats.
+ *
+ * Most browsers prefer an SVG when one is offered, so mixing an SVG with PNGs
+ * usually means the PNGs are never used.
+ */
+export interface FaviconLink {
+  /**
+   * Where the icon lives. A root-relative path is served from this site and
+   * picks up the base path automatically; an absolute URL is used untouched,
+   * which is how you point at a CDN.
+   */
+  readonly url: string;
+  /** MIME type, e.g. `'image/png'` or `'image/svg+xml'`. */
+  readonly type: string;
+  /**
+   * Pixel dimensions, e.g. `'48x48'`. Use `null` for a scalable format, which
+   * omits the attribute and lets the browser use it at any size.
+   */
+  readonly sizes: string | null;
+}
+
+/**
  * Shiki theme names used for build-time syntax highlighting.
  *
  * @remarks
@@ -119,6 +146,15 @@ export interface SiteConfig {
    * and fall back to the system font stack in `style.css`.
    */
   readonly googleFontsHref: string | null;
+
+  /**
+   * Browser tab icons, rendered in the order given.
+   *
+   * @remarks
+   * An empty array emits no icon link at all, in which case browsers fall back
+   * to requesting `/favicon.ico`.
+   */
+  readonly favicons: readonly FaviconLink[];
 
   /** Syntax highlighting themes for light and dark mode. */
   readonly codeThemes: CodeThemes;

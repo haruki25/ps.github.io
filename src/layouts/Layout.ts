@@ -165,7 +165,13 @@ ${this.renderFooter()}
   html`<meta property="article:published_time" content="${meta.publishedTime}">
   <meta property="article:author" content="${config.author}">`}
 
-  <link rel="icon" href="${paths.assetUrl('/favicon.svg')}" type="image/svg+xml">
+  ${config.favicons.map(
+    (icon) =>
+      html`<link rel="icon" type="${icon.type}"${
+        icon.sizes !== null ? html` sizes="${icon.sizes}"` : ''
+      } href="${paths.assetUrl(icon.url)}">
+  `,
+  )}
   <link rel="alternate" type="application/rss+xml" title="${config.title}" href="${paths.feedUrl}">
   ${config.googleFontsHref !== null &&
   html`<link rel="preconnect" href="https://fonts.googleapis.com">
