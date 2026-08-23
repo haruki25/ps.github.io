@@ -311,4 +311,39 @@ function applyLinkRules(
     rewrite(tokens[idx], 'src', false);
     return defaultImageRender(tokens, idx, options, env, self);
   };
+
+  // Raw HTML written directly in a post never becomes a link or image token, so
+  // the rules above never see it. Without this, a hand-written
+  // `<img src="/diagram.svg">` would keep its bare path and 404 wherever the
+  // site is served from a subdirectory.
+  const rewriteRawHtml = (content: string): string =>
+    content.replace(
+      RAW_HTML_URL_ATTRIBUTE,
+      (_match, attribute: string, quote: string, url: string) =>
+        `${attribute}=${quote}${resolveUrl(url)}${quote}`,
+    );
+
+  for (const rule of ['html_block', 'html_inline'] as const) {
+    const defaultRender =
+      md.renderer.rules[rule] ?? ((tokens, idx) => tokens[idx]?.content ?? '');
+
+    md.renderer.rules[rule] = (tokens, idx, options, env, self) =>
+      rewriteRawHtml(defaultRender(tokens, idx, options, env, self));
+  }
 }
+
+/**
+ * Matches a `src` or `href` attribute whose value is a root-relative URL.
+ *
+ * @remarks
+ * The `(?!\/)` keeps protocol-relative URLs such as `//cdn.example.com/x.png`
+ * out, since those point off-site despite starting with a slash. Both quote
+ * styles are captured so the original is preserved on the way back out.
+ *
+ * This is a regex over HTML, which is crude. It is acceptable only because the
+ * input is the site author's own markdown rather than untrusted content, and
+ * because it touches nothing but the inside of these two attributes. Note that
+ * `srcset` is deliberately not handled: its comma-separated candidate syntax
+ * needs a real parser, and nothing on this site uses it.
+ */
+const RAW_HTML_URL_ATTRIBUTE = /\b(src|href)=("|')(\/(?!\/)[^"']*)\2/g;
