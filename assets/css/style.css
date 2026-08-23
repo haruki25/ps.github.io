@@ -453,13 +453,16 @@ samp {
 
 .article-body figure {
   margin: var(--space-lg) 0;
+  /* Centres the image and the caption together. Doing it here rather than with
+     `margin: 0 auto` on the image is deliberate: setting `display` on the image
+     from a rule this specific would outrank the single-class `.light-only` and
+     `.dark-only` rules below and break the theme swap. */
+  text-align: center;
 }
 
 .article-body figure img {
-  display: block;
   max-width: 100%;
   height: auto;
-  margin: 0 auto;
 }
 
 .article-body figcaption {
@@ -479,7 +482,7 @@ samp {
    Cost worth knowing: browsers fetch both images even though one is hidden, so
    a themed pair downloads twice the bytes of a single diagram. */
 .light-only {
-  display: block;
+  display: inline-block;
 }
 
 .dark-only {
@@ -492,7 +495,7 @@ samp {
   }
 
   :root:not([data-theme='light']) .dark-only {
-    display: block;
+    display: inline-block;
   }
 }
 
@@ -501,7 +504,7 @@ samp {
 }
 
 :root[data-theme='dark'] .dark-only {
-  display: block;
+  display: inline-block;
 }
 
 /* --------------------------------------------------------------------------
