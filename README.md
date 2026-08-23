@@ -68,19 +68,6 @@ compile error rather than a missing element on the page.
 
 Start by replacing the placeholder URLs in the `social` array.
 
-### `basePath` - read this before your first deploy
-
-GitHub Pages serves a repository named exactly `<username>.github.io` at the
-domain root. **Any other repository name** is served from a subdirectory, at
-`https://<username>.github.io/<repo>/`.
-
-- Repo is `<your-username>.github.io` → leave `basePath: ''`.
-- Repo has any other name → set `basePath: '/<repo>'`.
-
-Get this wrong and every stylesheet, link, and icon on the site 404s, while the
-build itself reports complete success. It is the one setting that cannot be
-caught by the type checker.
-
 ## Dark mode
 
 The site follows the reader's operating system by default, and a toggle in the
@@ -151,7 +138,7 @@ the markup inside `<main>`. Adding a meta tag or a footer link changes every
 page on the site without touching a subclass.
 
 **Templates are typed functions, not a template language.** The `html`
-tagged-template escapes every interpolated value unless you wrap it in `raw()`,
+tagged-template escapes every interpolated value unless we wrap it in `raw()`,
 and because templates are ordinary TypeScript, a typo in a property name is a
 compile error rather than a silently empty element.
 
@@ -173,7 +160,7 @@ workflow in `.github/workflows/deploy.yml` type-checks, builds, and publishes.
 - Build command: `npm run build`
 - Output directory: `dist`
 
-Either way, update `url` in `site.config.ts` to the domain you end up on, since
+Either way, update `url` in `site.config.ts` to the domain we end up on, since
 that's what canonical links and the RSS feed are built from.
 
 ## Dependencies
