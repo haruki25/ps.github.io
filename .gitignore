@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+docs/api/
+
+# Source documents used to write the bio. They contain personal contact
+# details, so they are deliberately kept out of the published repository.
+PiyushSoni_Resume.pdf
+Profile.pdf

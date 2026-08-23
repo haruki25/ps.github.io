@@ -1,0 +1,33 @@
+{
+  "name": "ps.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A minimal, hand-rolled static site generator powering ps.github.io",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsx src/index.ts",
+    "dev": "tsx scripts/dev.ts",
+    "new": "tsx scripts/new-post.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
+    "docs": "typedoc",
+    "docs:check": "typedoc --emit none"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "katex": "^0.16.11",
+    "markdown-it": "^14.1.0",
+    "shiki": "^1.24.0"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.7",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typedoc": "^0.28.20",
+    "typescript": "^5.7.2"
+  }
+}
