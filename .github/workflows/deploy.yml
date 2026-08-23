@@ -1,0 +1,70 @@
+# Build the site and publish it to GitHub Pages on every push to main.
+#
+# One-time setup in the repository:
+#   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+#
+# No tokens or secrets to configure: the workflow authenticates with the
+# short-lived OIDC token GitHub issues to the job itself.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  # Allows a manual run from the Actions tab, useful for redeploying without
+  # having to make an empty commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it, but keep only the
+# newest queued run - there is no value in publishing an intermediate commit.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `npm ci` installs exactly what package-lock.json specifies, so a build
+      # that works locally cannot drift here.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      # Fails if any exported symbol lost its TypeDoc comment, or if a
+      # {@link} points at something that no longer exists.
+      - name: Check documentation
+        run: npm run docs:check
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
