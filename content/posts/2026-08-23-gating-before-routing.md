@@ -1,7 +1,7 @@
 ---
-title: "A Voice Assistant That Runs Entirely on an Old Phone"
+title: "Gating Before Routing"
 date: 2026-08-23T18:48:48.717Z
-description: Turning a three-year-old Galaxy A73 into an always-on local LLM server and Alexa-style voice assistant. What worked, what Android refused to allow, and what I'd do differently.
+description: A dozen lines of regex beat every prompt-engineering attempt I made and other notes from running a voice assistant entirely on an old Galaxy A73.
 tags: [systems, llm, android]
 ---
 
@@ -14,6 +14,11 @@ The phone was three years old and doing nothing, which is most of the
 justification for the project. The rest is that I wanted to know where the
 actual difficulty in a voice assistant lives. I assumed it would be the models.
 It was not the models.
+
+The best decision in here was a dozen lines of regex sitting in front of the
+model and deciding whether to bother it at all. Most of what the assistant
+does now never reaches inference. Everything else below is what it took to
+keep that gate fed with audio on a device that would rather be asleep.
 
 ## The constraints
 
@@ -148,7 +153,7 @@ The pattern that ended up in the service script is a loop that loads the audio
 source, records a second, checks the peak amplitude, and retries if it is
 exactly zero.
 
-## Gating before routing
+## Don't ask the model whether to ask the model
 
 This is the part I'd keep if I threw everything else away.
 
